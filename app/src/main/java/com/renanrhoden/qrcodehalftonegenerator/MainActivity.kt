@@ -1,12 +1,12 @@
 package com.renanrhoden.qrcodehalftonegenerator
 
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.PointF
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.renanrhoden.qrcodehalftonegenerator.halftone.transformations.ColorHalftoneTransformation
+import com.renanrhoden.qrcodehalftonegenerator.utils.toBlackAndWhite
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import jp.wasabeef.picasso.transformations.CropTransformation
@@ -21,22 +21,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         dottedImage.tag = getTarget()
         loadImage(4, 6)
-    }
-
-    fun toBlackAndWhite(bitmap: Bitmap): Bitmap {
-        val bwBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.RGB_565)
-        val hsv = FloatArray(3)
-        for (col in 0 until bitmap.width) {
-            for (row in 0 until bitmap.height) {
-                Color.colorToHSV(bitmap.getPixel(col, row), hsv)
-                if (hsv[2] > 0.5f) {
-                    bwBitmap.setPixel(col, row, -0x1000000)
-                } else {
-                    bwBitmap.setPixel(col, row, -0x1)
-                }
-            }
-        }
-        return bwBitmap
     }
 
     private fun loadImage(halftone: Int, vignette: Int) {
